@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 @available(macOS 10.15, *)
 public struct DiagramData: Identifiable, Equatable {
     
@@ -17,9 +16,9 @@ public struct DiagramData: Identifiable, Equatable {
     }
     
     public var id: UUID = UUID()
-    var value: Double
-    var title: String
-    var color: Color
-    var format: (Double) -> String
+    public var value: Double
+    public var title: String
+    public var color: Color
+    public var format: (Double) -> String
     
 }
