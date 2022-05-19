@@ -27,10 +27,9 @@ public struct PieDiagramView: View {
     }
     
     
-    init(data: [DiagramData], innerCircleRadiusPercentFromMain: Double = 0.65) {
+    public init(data: [DiagramData], innerCircleRadiusPercentFromMain: Double = 0.65) {
         
         self.innerCircleRadiusPercentFromMain = innerCircleRadiusPercentFromMain
-        
         
         let sum =  data.reduce(0, { result, entity in
             return result + entity.value
@@ -47,7 +46,7 @@ public struct PieDiagramView: View {
         }
     }
     
-    var body: some View {
+    public var body: some View {
         
         GeometryReader{ geometry in
             VStack{

@@ -12,11 +12,11 @@ import SwiftUI
 @available(macOS 10.15, *)
 public struct DiagramData: Identifiable, Equatable {
     
-    static func == (lhs: DiagramData, rhs: DiagramData) -> Bool {
+    public static func == (lhs: DiagramData, rhs: DiagramData) -> Bool {
         lhs.id == rhs.id
     }
     
-    var id: UUID = UUID()
+    public var id: UUID = UUID()
     var value: Double
     var title: String
     var color: Color
