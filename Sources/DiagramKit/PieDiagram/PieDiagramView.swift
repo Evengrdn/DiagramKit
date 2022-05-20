@@ -97,6 +97,7 @@ public struct PieDiagramView: View {
                                             .foregroundColor(Color.gray)
                                         Text(selectedPieSlice?.sourceData.format(selectedPieSlice?.sourceData.value ?? 0.0) ?? String(format: "$%.2f", pieDataSum))
                                             .font(.title)
+                                            .foregroundColor(Color.gray)
                                     }
                                 }
                             })
