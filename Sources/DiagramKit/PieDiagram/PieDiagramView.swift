@@ -16,6 +16,8 @@ public struct PieDiagramView: View {
     
     private let widthFraction = 0.75
     
+    var summValueFormatter: (Double) -> String
+    
     var innerCircleRadiusPercentFromMain: Double
     
     @State var selectedPieSlice: PieDiagramData? = nil
@@ -27,9 +29,10 @@ public struct PieDiagramView: View {
     }
     
     
-    public init(data: [DiagramData], innerCircleRadiusPercentFromMain: Double = 0.65) {
+    public init(data: [DiagramData], summValueFormatter: @escaping (Double) -> String = {String(format: "$%.2f", $0)},  innerCircleRadiusPercentFromMain: Double = 0.65) {
         
         self.innerCircleRadiusPercentFromMain = innerCircleRadiusPercentFromMain
+        self.summValueFormatter = summValueFormatter
         
         let sum =  data.reduce(0, { result, entity in
             return result + entity.value
@@ -95,7 +98,7 @@ public struct PieDiagramView: View {
                                         Text(selectedPieSlice?.sourceData.title ?? "Total")
                                             .font(.title)
                                             .foregroundColor(Color.gray)
-                                        Text(selectedPieSlice?.sourceData.format(selectedPieSlice?.sourceData.value ?? 0.0) ?? String(format: "$%.2f", pieDataSum))
+                                        Text(selectedPieSlice?.sourceData.format(selectedPieSlice?.sourceData.value ?? 0.0) ?? summValueFormatter(pieDataSum))
                                             .font(.title)
                                             .foregroundColor(Color.gray)
                                     }
