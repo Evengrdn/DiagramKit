@@ -110,11 +110,8 @@ public struct PieDiagramView: View {
                     
                     }
                     PieDiagramHistoty(data: pieData).padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
-
                 }
-//                Spacer()
-                //            PieDiagramHistoty(data: pieData)
-            }.frame(width: 800, height: 800)
+            }
         
         
         
