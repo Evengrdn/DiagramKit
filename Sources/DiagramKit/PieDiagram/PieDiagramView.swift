@@ -53,9 +53,9 @@ public struct PieDiagramView: View {
     public var body: some View {
         
             GeometryReader{ geometry in
-                VStack(alignment: .leading, spacing: 0){
+                VStack{
                     HStack{
-                        
+                        Spacer()
                     
                         ZStack {
                             ForEach(pieData) { entity in
@@ -107,10 +107,10 @@ public struct PieDiagramView: View {
                                 })
                         }
                         Spacer()
-                    
                     }
                     PieDiagramHistoty(data: pieData).padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
                 }
+
             }
         
         
