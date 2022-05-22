@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(macOS 10.15, *)
+@available(macOS 12.0, *)
 public struct PieDiagramView: View {
     
     private var pieData: [PieDiagramData] = []
@@ -49,81 +49,89 @@ public struct PieDiagramView: View {
         }
     }
     
+    
     public var body: some View {
         
-        GeometryReader{ geometry in
-            VStack{
-                Spacer()
-                HStack{
-                    Spacer()
-                    ZStack {
-                        ForEach(pieData) { entity in
-                            PieDiagramSliceView(pieDiagramData: entity)
-                                .scaleEffect(selectedPieSlice == entity ? 1.04 : 1.0)
-                                .frame(width: widthFraction * geometry.size.width, height: widthFraction * geometry.size.width)
-                                .gesture(
-                                    DragGesture(minimumDistance: 0)
-                                        .onChanged { value in
-                                            let radius = step * widthFraction * geometry.size.width
-                                            let diff = CGPoint(x: value.location.x - radius, y: radius - value.location.y)
-                                            let dist = pow(pow(diff.x, 2.0) + pow(diff.y, 2.0), step)
-                                            if (dist > radius || dist < radius * innerCircleRadiusPercentFromMain) {
-                                                selectedPieSlice = nil
-                                                return
-                                            }
-                                            var radians = Double(atan2(diff.x, diff.y))
-                                            if (radians < 0) {
-                                                radians = 2 * Double.pi + radians
-                                            }
-                                            
-                                            for entity in pieData {
-                                                if (radians < entity.endAngle.radians ) {
-                                                    selectedPieSlice = entity
-                                                    break
+            GeometryReader{ geometry in
+                VStack(alignment: .leading, spacing: 0){
+                    HStack{
+                        
+                    
+                        ZStack {
+                            ForEach(pieData) { entity in
+                                PieDiagramSliceView(pieDiagramData: entity)
+                                    .scaleEffect(selectedPieSlice == entity ? 1.04 : 1.0)
+                                    .frame(width: widthFraction * geometry.size.width, height: widthFraction * geometry.size.width)
+                                    .gesture(
+                                        DragGesture(minimumDistance: 0)
+                                            .onChanged { value in
+                                                let radius = step * widthFraction * geometry.size.width
+                                                let diff = CGPoint(x: value.location.x - radius, y: radius - value.location.y)
+                                                let dist = pow(pow(diff.x, 2.0) + pow(diff.y, 2.0), step)
+                                                if (dist > radius || dist < radius * innerCircleRadiusPercentFromMain) {
+                                                    selectedPieSlice = nil
+                                                    return
                                                 }
+                                                var radians = Double(atan2(diff.x, diff.y))
+                                                if (radians < 0) {
+                                                    radians = 2 * Double.pi + radians
+                                                }
+                                                
+                                                for entity in pieData {
+                                                    if (radians < entity.endAngle.radians ) {
+                                                        selectedPieSlice = entity
+                                                        break
+                                                    }
+                                                }
+                                                
                                             }
-                                            
-                                        }
-                                        .onEnded { _ in
-                                            selectedPieSlice = nil
-                                        })
-                        }.overlay(
-                            ZStack{
+                                            .onEnded { _ in
+                                                selectedPieSlice = nil
+                                            })
+                            }.overlay(
                                 ZStack{
-                                    Circle()
-                                        .fill(.black)
-                                        .frame(width: widthFraction * geometry.size.width * innerCircleRadiusPercentFromMain, height: widthFraction * geometry.size.width * innerCircleRadiusPercentFromMain)
-                                    
-                                    VStack {
-                                        Text(selectedPieSlice?.sourceData.title ?? "Total")
-                                            .font(.title)
-                                            .foregroundColor(Color.gray)
-                                        Text(selectedPieSlice?.sourceData.format(selectedPieSlice?.sourceData.value ?? 0.0) ?? summValueFormatter(pieDataSum))
-                                            .font(.title)
-                                            .foregroundColor(Color.gray)
+                                    ZStack{
+                                        Circle()
+                                            .fill(.black)
+                                            .frame(width: widthFraction * geometry.size.width * innerCircleRadiusPercentFromMain, height: widthFraction * geometry.size.width * innerCircleRadiusPercentFromMain)
+                                        
+                                        VStack {
+                                            Text(selectedPieSlice?.sourceData.title ?? "Total")
+                                                .font(.title)
+                                                .foregroundColor(Color.gray)
+                                            Text(selectedPieSlice?.sourceData.format(selectedPieSlice?.sourceData.value ?? 0.0) ?? summValueFormatter(pieDataSum))
+                                                .font(.title)
+                                                .foregroundColor(Color.gray)
+                                        }
                                     }
-                                }
-                            })
+                                })
+                        }
+                        Spacer()
+                    
                     }
-                    Spacer()
+                    PieDiagramHistoty(data: pieData).padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
+
                 }
-                Spacer()
-            }
-            
-        }
+//                Spacer()
+                //            PieDiagramHistoty(data: pieData)
+            }.frame(width: 800, height: 800)
+        
+        
         
         
     }
     
-    @available(macOS 10.15, *)
+    @available(macOS 12.0, *)
     struct PieDiagramView_Previews: PreviewProvider {
         
         static var previews: some View {
-            PieDiagramView(data: [
-                DiagramData(value: 1500, title: "Rent", color: .blue, format: { String(format: "$%.2f", $0) }),
-                DiagramData(value: 500, title: "Transport", color: .green, format: { String(format: "$%.2f", $0) }),
-                DiagramData(value: 300, title: "Education", color: .orange, format: { String(format: "$%.2f", $0) })
-            ])
+            Group {
+                PieDiagramView(data: [
+                    DiagramData(value: 1500, title: "Rent", color: .blue, format: { String(format: "$%.2f", $0) }),
+                    DiagramData(value: 500, title: "Transport", color: .green, format: { String(format: "$%.2f", $0) }),
+                    DiagramData(value: 300, title: "Education", color: .orange, format: { String(format: "$%.2f", $0) })
+                ])
+            }
         }
     }
 }
