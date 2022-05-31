@@ -112,10 +112,7 @@ public struct PieDiagramView: View {
                 }
 
             }
-        
-        
-        
-        
+
     }
     
     @available(macOS 12.0, *)
