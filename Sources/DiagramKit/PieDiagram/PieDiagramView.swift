@@ -116,14 +116,14 @@ public struct PieDiagramView: View {
     }
     
     @available(macOS 12.0, *)
-    struct PieDiagramView_Previews: PreviewProvider {
+    public struct PieDiagramView_Previews: PreviewProvider {
         
-        static var previews: some View {
+        public static var previews: some View {
             Group {
                 PieDiagramView(data: [
-                    DiagramData(value: 1500, title: "Rent", color: .blue, format: { String(format: "$%.2f", $0) }),
-                    DiagramData(value: 500, title: "Transport", color: .green, format: { String(format: "$%.2f", $0) }),
-                    DiagramData(value: 300, title: "Education", color: .orange, format: { String(format: "$%.2f", $0) })
+                    DiagramData(value: 1333, title: "Type A", color: .blue, format: { String(format: "$%.2f", $0) }),
+                    DiagramData(value: 2666, title: "Type B", color: .green, format: { String(format: "$%.2f", $0) }),
+                    DiagramData(value: 3999, title: "Type C", color: .orange, format: { String(format: "$%.2f", $0) })
                 ])
             }
         }
